@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import OlxLogo from "../assets/OlxLogo";
 import Search from "../assets/Search";
@@ -6,10 +6,21 @@ import Arrow from "../assets/Arrow";
 import SellButton from "../assets/SellButton";
 import SellButtonPlus from "../assets/SellButtonPlus";
 import { useNavigate } from "react-router-dom";
-
+import { useContext } from "react";
+import { AuthContext } from "../store/Context";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { firebaseAuth } from "../utils/firebase-config";
 const Header = () => {
   const navigate = useNavigate();
+  const { user, setUser } = useContext(AuthContext);
+  const handleLogout = async () => {
+    signOut(firebaseAuth).then(() => {
+      setUser(null);
+      navigate("/login");
+    });
+  };
 
+  // Listen for the logout button click even
   return (
     <HeaderParentDiv>
       <HeaderChildDiv>
@@ -37,11 +48,23 @@ const Header = () => {
           <Arrow />
         </Language>
         <LoginPage>
-          <span onClick={() => navigate("/login")}>Login</span>
-          <hr />
+          {user ? (
+            <span>
+              Welcome {user.displayName}
+              <hr />
+            </span>
+          ) : (
+            <span onClick={() => navigate("/login")}>Login</span>
+          )}
         </LoginPage>
-
-        <SellMenu>
+        <LoginPage>
+          {user ? (
+            <span onClick={() => handleLogout}>Logout</span>
+          ) : (
+            <span onClick={() => navigate("/signup")}>Sign Up</span>
+          )}
+        </LoginPage>
+        <SellMenu onClick={() => navigate("/create")}>
           <SellButton />
           <div className="sellMenuContent">
             <SellButtonPlus />
@@ -159,7 +182,8 @@ const LoginPage = styled.div`
     height: 2px;
   }
 
-  a {
+  span {
+    cursor: pointer;
     text-decoration: none;
   }
 `;

@@ -1,12 +1,12 @@
-import React, { Fragment } from 'react';
-import Header from '../Components/Header';
-import Create from '../Components/Create';
+import React, { Fragment } from "react";
+import Header from "../Components/Header";
+import Create from "../Components/Create";
 
 const CreatePage = () => {
   return (
     <Fragment>
       <Header />
-      <Create/>
+      <Create />
     </Fragment>
   );
 };

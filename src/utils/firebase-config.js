@@ -3,7 +3,6 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
-
 const firebaseConfig = {
   apiKey: "AIzaSyCGhmRIbITcxaMCPisWVuXT1H05NuBUTks",
   authDomain: "olx-clone-rafhathdan.firebaseapp.com",
@@ -13,7 +12,6 @@ const firebaseConfig = {
   appId: "1:151361648828:web:de3f4165c1e3c68b9bb8b9",
   measurementId: "G-VJ53WRJTB6",
 };
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const firebaseAuth = getAuth(app);

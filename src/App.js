@@ -10,6 +10,8 @@ import { AuthContext } from "./store/Context";
 import { onAuthStateChanged } from "firebase/auth";
 import { firebaseAuth } from "./utils/firebase-config";
 import CreatePage from "./Pages/CreatePage";
+import ViewPost from "./Pages/ViewPost";
+import Post from "./store/PostContext";
 
 function App() {
   const { setUser } = useContext(AuthContext);
@@ -21,12 +23,15 @@ function App() {
   return (
     <Container>
       <BrowserRouter>
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/signup" element={<SignUp />} />
-          <Route exact path="/login" element={<LoginPage />} />
-          <Route exact path="/create" element={<CreatePage />} />
-        </Routes>
+        <Post>
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route exact path="/signup" element={<SignUp />} />
+            <Route exact path="/login" element={<LoginPage />} />
+            <Route exact path="/create" element={<CreatePage />} />
+            <Route exact path="/view" element={<ViewPost />} />
+          </Routes>
+        </Post>
       </BrowserRouter>
     </Container>
   );

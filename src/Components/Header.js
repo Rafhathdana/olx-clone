@@ -24,7 +24,7 @@ const Header = () => {
   return (
     <HeaderParentDiv>
       <HeaderChildDiv>
-        <div className="brandName">
+        <div className="brandName" onClick={() => navigate("/")}>
           <OlxLogo />
         </div>
         <PlaceSearch>

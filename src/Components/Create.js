@@ -4,14 +4,19 @@ import Header from "./Header";
 import Emptyimage from "../assets/upload-icon.png";
 import { AuthContext, FirebaseContext } from "../store/Context";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { storage } from "../utils/firebase-config";
+import { firebasedb, storage } from "../utils/firebase-config";
+import { addDoc, collection } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 const Create = () => {
+  const navigate = useNavigate();
   const [formValue, setFormValue] = useState({
     name: "",
     category: "",
     price: "",
     image: null,
   });
+  const { user } = useContext(AuthContext);
+  const date = new Date().toDateString();
   const handleSubmit = async () => {
     // Create a reference to the storage object.
     const storageRef = ref(storage, `images/${formValue.image.name}`);
@@ -29,9 +34,16 @@ const Create = () => {
     uploadTask.on("complete", async () => {
       console.log("Upload complete!");
       var url = await getDownloadURL(storageRef);
-      console.log(url);
-      alert(url);
-      price
+      addDoc(collection(firebasedb, "products"), {
+        name: formValue.name,
+        category: formValue.category,
+        price: formValue.price,
+        url,
+        userId: user.uid,
+        createdAt: date,
+      }).then(() => {
+        navigate("/");
+      });
     });
 
     // Get the download URL for the image.
